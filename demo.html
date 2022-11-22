@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>keccak256 & secp256k1</title>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>  
+  <script src="./dist/noble.bundle.js"></script>  
+  <style>
+    .text-box {
+      border: 1px solid black;
+      padding:10px;
+      margin-bottom:10px;      
+    }
+    input {
+      width:500px;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <div class="text-box">
+    <h3>keccak256-test</h3>
+    <div>message: <input type="text" id="keccak256-input-message" value="hello"></div>
+    <div><button id="keccak256-test-btn">keccak256</button></div>
+    <pre id="keccak256-test-result"></pre>
+  </div>
+
+  <div class="text-box">
+    <h3>secp256k1 test</h3>
+      <div>message: <input type="text" id="secp256k1-input-message" value="hello"></div>
+      <!-- <div>private key: <input type="text" id="secp256k1-input-pk" value="00000000000000000000000000000000000000000000000000000000000000FF"></div> -->
+      <div>private key: <input type="text" id="secp256k1-input-pk" value="1249aa350c169899ad570d3dc1fcfeb775a6446fee970fcec30d0c5d8929f869"></div>
+      <div><button id="secp256k1-test-btn">secp256k1</button></div>
+    <pre id="secp256k1-test-result"></pre>
+  </div>
+
+  <script>
+    $(document).ready(_ => {
+
+
+      $("#keccak256-test-btn").click(e=>{
+        let input = $("#keccak256-input-message").val();
+        let hashed = Noble.default.hash.keccak_256(input)
+        let str = Noble.default.utils.bytesToHex(hashed);
+        $("#keccak256-test-result").html(str);
+      });
+
+      $("#secp256k1-test-btn").click(async e=>{
+        let msg = $("#secp256k1-input-message").val();
+        let pkHexStr = $("#secp256k1-input-pk").val();
+        let hashed = Noble.default.utils.utf8ToBytes(msg);
+        let pk = Noble.default.utils.hexToBytes(pkHexStr);
+        let public_key = Noble.default.secp.getPublicKey(pk);
+        let compressed_public_key = Noble.default.secp.getPublicKey(pk, true);
+        
+        // console.log("public_key", public_key);
+        // console.log("compressed_public_key", public_key);
+        // window.public_key = public_key;
+
+        let address = Noble.default.hash.keccak_256(public_key.slice(1)).slice(-20);
+        let signature = await Noble.default.secp.sign(hashed, pk);
+        
+        let str = Noble.default.utils.bytesToHex(signature);
+        let sig = Noble.default.secp.Signature.fromHex(str);
+        
+        // console.log("sig", sig.toRawBytes());
+        $("#secp256k1-test-result").html([
+          `public_key(none compressed): ${Noble.default.utils.bytesToHex(public_key)}`,
+          `public_key(compressed): ${Noble.default.utils.bytesToHex(compressed_public_key)}`,
+          `address: 0x${Noble.default.utils.bytesToHex(address)}`,
+          `signature hex: ${sig.toHex()}`,
+          `signature.r: ${sig.r}`,
+          `signature.s: ${sig.s}`
+        ].join("\n")); 
+
+      });
+
+
+
+    })
+  </script>
+</body>
+
+</html>

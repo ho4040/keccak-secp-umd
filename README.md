@@ -40,15 +40,15 @@ const signatureFromHex = Noble.default.secp.Signature.fromHex;
 
 ### private key to Ethereum address
 ```js
-let private_key = hexToBytes("00000000000000000000000000000000000000000000000000000000000000FF");
-let public_key = getPublicKey(private_key);
-let address = keccak_256(public_key.slice(1)).slice(-20);
+let privateKey = hexToBytes("00000000000000000000000000000000000000000000000000000000000000FF");
+let publicKey = getPublicKey(privateKey);
+let address = keccak_256(publicKey.slice(1)).slice(-20);
 ```
 
 ### sign with private key
 ```js
 let msg = utf8ToBytes("hello this is message");
-let signature = await sign(msg, pk);
+let signature = await sign(msg, privateKey);
 let sigHexStr = bytesToHex(signature);
 let sig = signatureFromHex(sigHexStr);
 let sig_r = sig.r;

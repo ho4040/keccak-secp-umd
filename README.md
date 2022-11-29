@@ -30,14 +30,16 @@ http-server
 
 # Usage
 
-```js
-const hexToBytes = Noble.default.utils.hexToBytes;
-const getPublicKey = Noble.default.secp.getPublicKey;
-const keccak_256 = Noble.default.hash.keccak_256;
-const utf8ToBytes = Noble.default.utils.utf8ToBytes;
-const sign = Noble.default.secp.sign;
-const bytesToHex = Noble.default.utils.bytesToHex;
-const signatureFromHex = Noble.default.secp.Signature.fromHex;
+```html
+<script src="./dist/noble.bundle.js"></script>  
+<script>
+    const hexToBytes = Noble.default.utils.hexToBytes;
+    const getPublicKey = Noble.default.secp.getPublicKey;
+    const keccak_256 = Noble.default.hash.keccak_256;
+    const utf8ToBytes = Noble.default.utils.utf8ToBytes;
+    const sign = Noble.default.secp.sign;
+    const bytesToHex = Noble.default.utils.bytesToHex;
+    const signatureFromHex = Noble.default.secp.Signature.fromHex;
 ```
 
 ### private key to Ethereum address

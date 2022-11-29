@@ -42,6 +42,13 @@ http-server
     const signatureFromHex = Noble.default.secp.Signature.fromHex;
 ```
 
+### keccak256(sha3-256)
+```js
+let hashed = Noble.default.hash.keccak_256(input)
+let str = Noble.default.utils.bytesToHex(hashed);
+```
+
+
 ### private key to Ethereum address
 ```js
 let privateKey = hexToBytes("00000000000000000000000000000000000000000000000000000000000000FF");

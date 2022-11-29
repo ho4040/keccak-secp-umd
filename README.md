@@ -5,7 +5,7 @@ UMD build from paulmillr's libraries
 * secp256k1 : https://github.com/paulmillr/noble-secp256k1
 * keccak256 : https://github.com/paulmillr/noble-hashes
 
-
+You can test it on [Demo page](https://ho4040.github.io/keccak-secp-umd/)
 
 
 # Build
@@ -56,7 +56,3 @@ let sig = signatureFromHex(sigHexStr);
 let sig_r = sig.r;
 let sig_s = sig.s;
 ```
-
-### Test
-
-You can test it on [Demo page](https://ho4040.github.io/keccak-secp-umd/)
